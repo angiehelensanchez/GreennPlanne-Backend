@@ -34,6 +34,6 @@ public class PlaneController {
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
             @RequestParam(name = "size", defaultValue = "10", required = false) int size
     ){
-        return ResponseEntity.ok(planeService.findAllPLanes(page, size));
+        return ResponseEntity.ok(planeService.findAllPlanes(page, size));
     }
 }
