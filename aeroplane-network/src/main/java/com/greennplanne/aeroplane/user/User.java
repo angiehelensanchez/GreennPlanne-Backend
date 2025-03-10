@@ -1,7 +1,9 @@
 package com.greennplanne.aeroplane.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.greennplanne.aeroplane.role.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Past;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
