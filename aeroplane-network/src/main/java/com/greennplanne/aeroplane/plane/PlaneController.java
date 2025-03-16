@@ -1,6 +1,7 @@
 package com.greennplanne.aeroplane.plane;
 
 import com.greennplanne.aeroplane.common.PageResponse;
+import com.greennplanne.aeroplane.route.RouteResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -35,5 +36,12 @@ public class PlaneController {
             @RequestParam(name = "size", defaultValue = "10", required = false) int size
     ){
         return ResponseEntity.ok(planeService.findAllPlanes(page, size));
+    }
+
+    @DeleteMapping("/planes/{plane-id}")
+    public ResponseEntity<PlaneResponse> deletePlaneById(
+            @PathVariable("plane-id") Integer planeId
+    ){
+        return ResponseEntity.ok(planeService.deleteById(planeId));
     }
 }

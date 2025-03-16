@@ -1,6 +1,7 @@
 package com.greennplanne.aeroplane.plane;
 
 import com.greennplanne.aeroplane.common.PageResponse;
+import com.greennplanne.aeroplane.route.RouteResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -45,6 +46,14 @@ public class PlaneService{
                 planes.isFirst(),
                 planes.isLast()
         );
+    }
+
+    public PlaneResponse deleteById(Integer id) {
+        PlaneResponse planeResponse = findById(id);
+        if (planeResponse != null) {
+            planeRepository.deleteById(id);
+        }
+        return planeResponse;
     }
 
 }
