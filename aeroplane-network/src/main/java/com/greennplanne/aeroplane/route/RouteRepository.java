@@ -13,5 +13,11 @@ public interface RouteRepository extends JpaRepository<Route, Integer> {
             from Route route
             where route.id =:routeId
             """)
-    Page<Route> findByRouteId(Integer routeId, Pageable pageable);
+    Page<Route> findByRouteIdPageable(Integer routeId, Pageable pageable);
+    @Query("""
+            SELECT route
+            from Route route
+            where route.id =:routeId
+            """)
+    Route findByRouteId(Integer routeId);
 }

@@ -12,6 +12,6 @@ public interface  PlaneRepository extends JpaRepository<Plane, Integer> {
             from Plane plane
             WHERE plane.id = :planeId
                         """)
-    Page<Plane> findByPlaneId(Integer planeId, Pageable pageable);
+    Plane findByPlaneId(Integer planeId);
 
 }
