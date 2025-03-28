@@ -1,46 +1,46 @@
 package com.greennplanne.aeroplane.flight;
 
 
+import com.greennplanne.aeroplane.airport.Airport;
+import com.greennplanne.aeroplane.airport.AirportRepository;
 import com.greennplanne.aeroplane.plane.Plane;
 import com.greennplanne.aeroplane.plane.PlaneRepository;
-import com.greennplanne.aeroplane.route.Route;
-import com.greennplanne.aeroplane.route.RouteRepository;
 import org.springframework.stereotype.Service;
 
 @Service
+
 public class FlightMapper {
 
     private final PlaneRepository planeRepository;
-    private final RouteRepository routeRepository;
 
-    public FlightMapper(PlaneRepository planeRepository, RouteRepository routeRepository) {
+    private final AirportRepository airportRepository;
+
+    public FlightMapper(PlaneRepository planeRepository, AirportRepository airportRepository) {
         this.planeRepository = planeRepository;
-        this.routeRepository = routeRepository;
+        this.airportRepository = airportRepository;
     }
-    public Flight toFlight(FlightRequest flightRequest) {
+    public Flight toFlight(FlightRequest flightRequest, Airport origin, Airport destination) {
         Plane plane = planeRepository.findByPlaneId(flightRequest.planeId());
-
-        Route route = routeRepository.findByRouteId(flightRequest.routeId());
 
         return Flight.builder()
                 .plane(plane)
-                .route(route)
+                .arrivalAirport(origin)
+                .departureAirport(destination)
                 .departureTime(flightRequest.departureTime())
                 .availableSeats(flightRequest.availableSeats())
-                .status(flightRequest.status())
+                .status(FlightStatus.valueOf(flightRequest.status()))
                 .build();
     }
     public FlightResponse toFlightResponse(Flight flight) {
-        Plane plane = planeRepository.findByPlaneId(flight.getPlane().getId());
-        Route route = routeRepository.findByRouteId(flight.getRoute().getId());
-
+        Plane plane = planeRepository.findByPlaneId(flight.getPlane().getId());;
         return FlightResponse.builder()
                 .id(flight.getId())
                 .plane(plane)
-                .route(route)
+                .arrivalAirport(flight.getArrivalAirport())
+                .departureAirport(flight.getDepartureAirport())
                 .flightNumber(flight.getFlightNumber())
                 .availableSeats(flight.getAvailableSeats())
-                .status(flight.getStatus())
+                .status(String.valueOf(flight.getStatus()))
                 .build();
 
     }
