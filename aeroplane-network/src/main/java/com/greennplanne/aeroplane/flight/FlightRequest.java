@@ -10,8 +10,10 @@ import java.time.LocalDateTime;
 public record FlightRequest(
         @NotNull(message = "Plane ID is mandatory")
         Integer planeId,
-        @NotNull(message = "Route ID is mandatory")
-        Integer routeId,
+        @NotNull(message = "Departure ID is mandatory")
+        Integer departureAirportId,
+        @NotNull(message = "Arrival ID is mandatory")
+        Integer arrivalAirportId,
         @NotNull(message = "Date is mandatory")
         LocalDateTime departureTime,
         @NotNull(message = "Available seats is mandatory")
