@@ -1,6 +1,7 @@
 package com.greennplanne.aeroplane.flight;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.greennplanne.aeroplane.airport.Airport;
 import com.greennplanne.aeroplane.common.BaseEntity;
 import com.greennplanne.aeroplane.plane.Plane;
 import com.greennplanne.aeroplane.route.Route;
@@ -25,18 +26,29 @@ public class Flight extends BaseEntity {
     @Id
     @GeneratedValue
     private Integer id;
+
     @ManyToOne
     @JoinColumn(name = "plane_id")
     @JsonBackReference
     private Plane plane;
+
     @ManyToOne
-    @JoinColumn(name="route_id")
-    @JsonBackReference
-    private Route route;
+    @JoinColumn(name = "departure_airport_id")
+    private Airport departureAirport;
+
+    @ManyToOne
+    @JoinColumn(name = "arrival_airport_id")
+    private Airport arrivalAirport;
+
+
     private String flightNumber;
     private LocalDateTime departureTime;
     private Integer availableSeats;
-    private String status;
+
+    private Double price;
+
+    @Enumerated(EnumType.STRING)
+    private FlightStatus status = FlightStatus.AVAILABLE;
 
 
 }

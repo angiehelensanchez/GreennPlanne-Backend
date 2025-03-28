@@ -1,5 +1,7 @@
 package com.greennplanne.aeroplane.flight;
 
+import com.greennplanne.aeroplane.airport.Airport;
+import com.greennplanne.aeroplane.airport.AirportRepository;
 import com.greennplanne.aeroplane.common.PageResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +20,17 @@ import java.util.List;
 public class FlightService {
     private final FlightRepository flightRepository;
     private final FlightMapper flightMapper;
+    private final AirportRepository airportRepository;
 
     public Flight save(FlightRequest flightRequest) {
+        Airport departureAirport = airportRepository.findById(flightRequest.departureAirportId())
+                .orElseThrow(() -> new EntityNotFoundException("Airport with id " + flightRequest.departureAirportId() + " not found"));
 
-        Flight flight = flightMapper.toFlight(flightRequest);
-        flight.setFlightNumber(generateFlightNumber(flight.getRoute().getDeparture(), flight.getRoute().getArrival(), flight.getDepartureTime().getDayOfYear(), flight.getDepartureTime().getYear()));
+        Airport arrivalAirport = airportRepository.findById(flightRequest.arrivalAirportId())
+                .orElseThrow(() -> new EntityNotFoundException("Airport with id " + flightRequest.arrivalAirportId() + " not found"));
+
+        Flight flight = flightMapper.toFlight(flightRequest, departureAirport, arrivalAirport);
+        flight.setFlightNumber(generateFlightNumber(flight.getArrivalAirport().getCode(), flight.getDepartureAirport().getCode(),    flight.getDepartureTime().getDayOfYear(), flight.getDepartureTime().getYear()));
         return flightRepository.save(flight);
     }
 
